@@ -81,6 +81,16 @@ public:
   void openFile(const std::string &file_path);
 
   /**
+   * @brief Opens a camera using Gstreamer backend.
+   *
+   * This opens a camera with Gstreamer backend using Gstreamer pipeline specified 
+   * in gstPipeline parameter
+   *
+   * @throw cv_camera::DeviceError device open failed
+   */
+  void openPipeline(const std::string &gstPipeline);
+
+  /**
    * @brief capture an image and store.
    *
    * to publish the captured image, call publish();

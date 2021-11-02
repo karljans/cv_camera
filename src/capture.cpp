@@ -128,6 +128,23 @@ void Capture::openFile(const std::string &file_path)
   }
 }
 
+void Capture::openPipeline(const std::string &gstPipeline)
+{
+  cap_ = cv::VideoCapture(gstPipeline, cv::CAP_GSTREAMER);
+
+  if (!cap_.isOpened())
+  {
+    std::stringstream stream;
+    stream << "The followng gst pipeline cannot be opened:" << gstPipeline;
+    throw DeviceError(stream.str());
+  }
+  pub_ = it_.advertiseCamera(topic_name_, buffer_size_);
+
+  loadCameraInfo();
+
+  ROS_INFO_STREAM("Opening GST Pipeline: " << gstPipeline);
+}
+
 bool Capture::capture()
 {
   if (cap_.read(bridge_.image))
